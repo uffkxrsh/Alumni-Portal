@@ -1,0 +1,174 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#login-parent, #signup-parent {
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../../Resources/Login-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-logo {
+    width: 24px;
+    height: 15px;
+    margin-right: 10px;
+}
+
+.back-link {
+    color: #000000;
+    font-size: larger;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.login_container {
+    padding: 2%;
+    display: flex;
+    justify-content: space-between;
+    width: 100vw;
+}
+
+.login_panel {
+    width: calc(32% - 3rem);
+    text-align: left;
+    background-color: rgba(195, 215, 239, 0.7);
+    margin-left: 3rem;
+    padding: 6rem 3rem;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.login_clg {
+    width: calc(50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 2rem;
+}
+
+.login_clg h1 {
+    font-size: 6.75rem;
+    color: #ffffff;
+    text-shadow: 4px 4px 2px #ba2928;
+}
+
+.login_clg h3 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-top: 1rem;
+}
+
+.text_input label {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.text_input {
+    padding-bottom: 2rem;
+    font-weight: 600;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.text_input input {
+    width: 100%;
+    padding: 15px 10px;
+    margin: 5px 0;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 6px 0px;
+}
+
+.text_input .branch-year {
+    display: flex;
+    align-items: center;
+}
+
+.log_sign_btn {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.log_sign_btn button, .forgotPassword_btn button {
+    flex: 1;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 15px;
+    font-size: 20px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 4px 0px,
+        rgba(0, 0, 0, 0.05) 0px 5px 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.log_sign_btn button:first-child {
+    background-color: #ba2928;
+    color: white;
+}
+
+.signup_btn button:first-child {
+    background-color: #e5e5e5;
+    color: black;
+}
+
+.log_sign_btn button:hover, .forgotPassword_btn button:hover {
+    transform: scale(1.01);
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 6px 12px 0px,
+        rgba(0, 0, 0, 0.1) 0px 3px 6px 0px;
+}
+
+.forgot-password-link {
+    color: #000000;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+.forgot-password-link:hover {
+    text-decoration: none;
+}
+
+#forgotPasswordSection {
+    display: none;
+    padding: 1rem 0 0 0;
+    margin: 2rem 0 0 0;
+}
+
+.clg-container {
+    position: absolute;
+    top: 4%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: right;
+    gap: 2%;
+    width: 45vw;
+}
+
+.clg-container span {
+    color: whitesmoke;
+    font-size: 2rem;
+    text-align: right;
+    width: 50%;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+}
+
+.clg-container .clg-logo {
+    width: 18%;
+}
