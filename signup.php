@@ -1,3 +1,66 @@
+<?php
+session_start();
+include "db_conn.php";
+
+if (isset($_POST['signupButton'])) {
+    // Function to validate input data
+    function validate($data) {
+        return htmlspecialchars(stripslashes(trim($data)));
+    }
+
+    // Get form input data
+    $name = validate($_POST['nameInput']);
+    $rollNumber = validate($_POST['rollNumberInput']);
+    $password = validate($_POST['passwordInput']);
+    $confirmPassword = validate($_POST['confirmPasswordInput']);
+
+    // Validate form data
+    if (empty($name) || empty($rollNumber) || empty($password) || empty($confirmPassword)) {
+        header("Location: signup.php?error=Please fill out all fields");
+        exit();
+    }
+
+    // Validate roll number length
+    if (strlen($rollNumber) !== 5) {
+        header("Location: signup.php?error=Roll Number must be 5 characters");
+        exit();
+    }
+
+    // Validate password match
+    if ($password !== $confirmPassword) {
+        header("Location: signup.php?error=Password does not match");
+        exit();
+    }
+
+    // Hash the password for security
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    // Insert data into the database
+    $sql = "INSERT INTO users (name, roll_number, password) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    
+    // Bind parameters
+    $stmt->bind_param("sss", $name, $rollNumber, $hashedPassword);
+
+    // Execute the query
+    $stmt->execute();
+
+    // Check for success
+    if ($stmt->affected_rows > 0) {
+        header("Location: signup.php?success=Registration successful!");
+    } else {
+        header("Location: signup.php?error=Registration failed");
+    }
+
+    // Close the statement
+    $stmt->close();
+    
+    // Close the database connection
+    $conn->close();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,50 +68,73 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Signup</title>
-  <link rel="stylesheet" href="CSS/main.css" />
-  <link rel="stylesheet" href="CSS/index.css" />
+  <link rel="stylesheet" href="CSS/style.css" />
 </head>
 
 <body>
+
   <main id="signup-parent">
     <div class="login_container">
+
+      <!-- THE SIGNUP PAGE CONTAINER -->
       <div class="login_panel">
+
+        <!-- THE INPUT FORM -->
         <div>
+
+          <!-- BACK TO LOGIN PAGE LINK -->
           <div class="back-link">
-            <a href="index.html">
+            <a href="index.php">
               <img class="back-logo" src="Resources/back.png" alt="Back Logo" />
               Back to Login
             </a>
           </div>
-          <div class="text_input">
-            <label>Name:</label>
-            <input type="text" id="nameInput" />
-          </div>
-          <div class="text_input">
-            <label>Roll Number:</label>
-            <input type="text" id="rollNumberInput" />
-            <div id="rollNumberError" class="error-message"></div>
-          </div>
-          <div class="text_input">
-            <label class="branch-year" id="branchYearLabel">
-              Branch: <span id="branchSpan"></span> &nbsp; Year:
-              <span id="yearSpan"></span>
-            </label>
-          </div>
-          <div class="text_input">
-            <label>Password:</label>
-            <input type="password" id="passwordInput" />
-          </div>
-          <div class="text_input">
-            <label>Confirm Password:</label>
-            <input type="password" id="confirmPasswordInput" />
-            <div id="passwordError" class="error-message"></div>
-          </div>
-          <div class="log_sign_btn">
-            <button id="signupButton">Sign Up</button>
-          </div>
+
+          <form action="signup.php" method="post">
+            <!-- NAME -->
+            <div class="text_input">
+              <label>Name:</label>
+              <input type="text" name="nameInput" id="nameInput" />
+            </div>
+
+            <!-- ROLL NUMBER -->
+            <div class="text_input">
+              <label>Roll Number:</label>
+              <input type="text" name="rollNumberInput" id="rollNumberInput" />
+              <div id="rollNumberError" class="error-message"></div>
+            </div>
+
+            <!-- BRANCH AND YEAR -->
+            <div class="text_input">
+              <label class="branch-year" id="branchYearLabel">
+                Branch: <span id="branchSpan"></span> &nbsp; Year:
+                <span id="yearSpan"></span>
+              </label>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="text_input">
+              <label>Password:</label>
+              <input type="password" name="passwordInput" id="passwordInput" />
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+            <div class="text_input">
+              <label>Confirm Password:</label>
+              <input type="password" name="confirmPasswordInput" id="confirmPasswordInput" />
+              <div id="passwordError" class="error-message"></div>
+            </div>
+
+            <!-- SIGNUP BTN -->
+            <div class="log_sign_btn">
+              <input type="submit" name="signupButton" id="signupButton" value="Sign Up"></input>
+            </div>
+          </form>
         </div>
+
       </div>
+
+      <!-- GENERAL INFO -->
       <div class="login_clg">
         <div class="clg-container">
           <span>Chandigarh College of Engineering & Technology</span>
@@ -57,6 +143,7 @@
         <h1>Alumni Portal</h1>
         <h3>Lorem Ipsum</h3>
       </div>
+
     </div>
   </main>
 
@@ -121,7 +208,8 @@
             break;
           case "3":
             setBranchAndYear("CSE", `20${yearPrefix}`);
-            break; a
+            break;
+            a
           case "5":
             setBranchAndYear("ECE", `20${yearPrefix}`);
             break;
@@ -145,3 +233,4 @@
 </body>
 
 </html>
+
