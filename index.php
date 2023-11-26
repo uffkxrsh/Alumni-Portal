@@ -1,7 +1,8 @@
 <?php
 session_start();
-include "db_conn.php";
+include "./php/db_conn.php";
 
+$error ='';
 if (isset($_POST['rollNumberInput']) && isset($_POST['passwordInput'])) {
 
   function validate($data)
@@ -66,7 +67,6 @@ if (isset($_POST['rollNumberInput']) && isset($_POST['passwordInput'])) {
 
   if (empty($rollNumber) || empty($password)) {
     $error = "<br>khaali hain variables";
-    exit();
   }
 
   // Retrieve hashed password from the database based on the provided roll number
@@ -87,19 +87,14 @@ if (isset($_POST['rollNumberInput']) && isset($_POST['passwordInput'])) {
       // Password is correct, set session variables
       $_SESSION['rollNumber'] = $user['roll_number'];
       // Redirect to the user's dashboard or any other page
-      header("Location: welcome.php");
-      exit();
+      header("Location: ./php/welcome.php");
     } else {
       // Password is incorrect
-      header("Location: index.php");
       $error = "<br>password nahi yaad rehta ";
-      exit();
     }
-  } else {
+  } else if(!$user){
     // Roll number not found in the database
-    header("Location: index.php");
     $error = "kon hain tu bhai?";
-    exit();
   }
 }
 
@@ -113,7 +108,10 @@ $conn->close();
 
 <head>
   <title>Login</title>
-  <link rel="stylesheet" type="text/css" href="CSS/style.css" />
+  <link rel="stylesheet" type="text/css" href="./CSS/style.css" />
+  <link rel="stylesheet" type="text/css" href="./CSS/index.css" />
+  <link rel="stylesheet" type="text/css" href="./CSS/main.css" />
+  <link rel="stylesheet" type="text/css" href="./CSS/profile.css" />
 </head>
 
 <body>
@@ -124,7 +122,7 @@ $conn->close();
       <div class="login_panel">
         <div>
 
-          <form action="index.php" method="post">
+          <form action="./index.php" method="post">
             <!-- ROLL NUMBER -->
             <div class="text_input">
               <label>Roll Number:</label>
@@ -136,19 +134,19 @@ $conn->close();
               <label>Password:</label>
               <input type="password" id="passwordInput" name="passwordInput" />
               <div class="forgot-password-link">
-                <span id="forgotPasswordLink">Forgot Password</span>
+                <span id="forgotPasswordLink" onclick="showForgotPassword()">Forgot Password</span>
               </div>
             </div>
 
             <!-- LOGIN & SIGNUP BUTTON -->
             <div class="log_sign_btn">
               <!-- LOGIN BTN -->
-              <input class="log_btn" type="submit" id="loginButton" value="Log In" onclick="handleLogin()"></input>
+              <input class="log_btn" type="submit" id="loginButton" value="Log In"></input>
 
               <!-- SIGN UP BTN -->
-              <a href="signup.php">
+              <a href="./php/signup.php">
                 <div class="signup_btn">
-                  <input type="submit" class="sign_btn" value="Sign Up"></input>
+                  <input type="button" class="sign_btn" value="Sign Up"></input>
                 </div>
               </a>
             </div>
@@ -165,8 +163,8 @@ $conn->close();
             </div>
             <div class="forgotPassword_btn">
               <br>
-              <button type="submit" id="submitForgotPassword" value="Submit">Submit</button>
-              <button id="cancelForgotPassword">Cancel</button>
+              <input type="submit" id="submitForgotPassword" value="Submit"></input>
+              <input id="cancelForgotPassword" type="button" onclick="hideForgotPassword()" value="Cancel"></input>
             </div>
           </div>
         </div>
@@ -176,7 +174,7 @@ $conn->close();
       <div class="login_clg">
         <div class="clg-container">
           <span>Chandigarh College of Engineering & Technology</span>
-          <img class="clg-logo" src="Resources/ccetLogoBlack.png" />
+          <img class="clg-logo" src="./Resources/ccetLogoBlack.png" />
         </div>
         <h1>Alumni Portal</h1>
         <h3>Lorem Ipsum</h3>
@@ -211,18 +209,6 @@ $conn->close();
     );
     cancelForgotPasswordButton.addEventListener("click", hideForgotPassword);
 
-    function handleLogin() {
-      const rollNumber = rollNumberInput.value;
-      const password = passwordInput.value;
-      // if (rollNumber === "yourRollNumber" && password === "yourPassword") {
-      //   rollNumberSpan.textContent = rollNumber;
-      //   rollNumberInput.value = "";
-      //   passwordInput.value = "";
-      // } else {
-      //   alert("Invalid credentials. Please try again.");
-      // }
-    }
-
     function showForgotPassword() {
       forgotPasswordSection.style.display = "block";
     }
@@ -248,3 +234,9 @@ $conn->close();
 </body>
 
 </html>
+
+<?php
+if($error){
+  echo $error;
+}
+?>

@@ -4,7 +4,7 @@ session_start();
 // Check if the user is logged in
 if (!isset($_SESSION['rollNumber'])) {
     // If not logged in, redirect to the login page
-    header("Location: your_login_page.php");
+    header("Location: ../index.php");
     exit();
 }
 

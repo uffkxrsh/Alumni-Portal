@@ -2,9 +2,9 @@
 
 #login-parent,
 #signup-parent {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  background-image: url(../../Resources/Login-bg.png);
+  background-image: url(../Resources/Login-bg.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -101,8 +101,18 @@
   width: 100%;
 }
 
-.log_sign_btn button,
-.forgotPassword_btn button {
+.forgotPassword_btn{
+  width:70%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.forgotPassword_btn input{
+  margin: 5px;
+}
+
+.log_sign_btn input,
+.forgotPassword_btn input {
   flex: 1;
   border: none;
   border-radius: 10px;
@@ -114,18 +124,21 @@
   cursor: pointer;
 }
 
-.log_sign_btn button:first-child {
+
+.log_sign_btn input:first-child,
+.forgotPassword_btn #submitForgotPassword{
   background-color: var(--key-red);
   color: white;
 }
 
-.signup_btn button:first-child {
+.signup_btn input:first-child,
+.forgotPassword_btn #cancelForgotPassword {
   background-color: #e5e5e5;
   color: black;
 }
 
-.log_sign_btn button:hover,
-.forgotPassword_btn button:hover {
+.log_sign_btn input:hover,
+.forgotPassword_btn input:hover {
   transform: scale(1.01);
   box-shadow: rgba(0, 0, 0, 0.3) 0px 6px 12px 0px,
     rgba(0, 0, 0, 0.1) 0px 3px 6px 0px;

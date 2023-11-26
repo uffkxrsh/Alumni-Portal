@@ -3,60 +3,61 @@ session_start();
 include "db_conn.php";
 
 if (isset($_POST['signupButton'])) {
-    // Function to validate input data
-    function validate($data) {
-        return htmlspecialchars(stripslashes(trim($data)));
-    }
+  // Function to validate input data
+  function validate($data)
+  {
+    return htmlspecialchars(stripslashes(trim($data)));
+  }
 
-    // Get form input data
-    $name = validate($_POST['nameInput']);
-    $rollNumber = validate($_POST['rollNumberInput']);
-    $password = validate($_POST['passwordInput']);
-    $confirmPassword = validate($_POST['confirmPasswordInput']);
+  // Get form input data
+  $name = validate($_POST['nameInput']);
+  $rollNumber = validate($_POST['rollNumberInput']);
+  $password = validate($_POST['passwordInput']);
+  $confirmPassword = validate($_POST['confirmPasswordInput']);
 
-    // Validate form data
-    if (empty($name) || empty($rollNumber) || empty($password) || empty($confirmPassword)) {
-        header("Location: signup.php?error=Please fill out all fields");
-        exit();
-    }
+  // Validate form data
+  if (empty($name) || empty($rollNumber) || empty($password) || empty($confirmPassword)) {
+    header("Location: signup.php?error=Please fill out all fields");
+    exit();
+  }
 
-    // Validate roll number length
-    if (strlen($rollNumber) !== 5) {
-        header("Location: signup.php?error=Roll Number must be 5 characters");
-        exit();
-    }
+  // Validate roll number length
+  if (strlen($rollNumber) !== 5) {
+    header("Location: signup.php?error=Roll Number must be 5 characters");
+    exit();
+  }
 
-    // Validate password match
-    if ($password !== $confirmPassword) {
-        header("Location: signup.php?error=Password does not match");
-        exit();
-    }
+  // Validate password match
+  if ($password !== $confirmPassword) {
+    header("Location: signup.php?error=Password does not match");
+    exit();
+  }
 
-    // Hash the password for security
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+  // Hash the password for security
+  $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // Insert data into the database
-    $sql = "INSERT INTO users (name, roll_number, password) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    
-    // Bind parameters
-    $stmt->bind_param("sss", $name, $rollNumber, $hashedPassword);
+  // Insert data into the database
+  $sql = "INSERT INTO users (name, roll_number, password) VALUES (?, ?, ?)";
+  $stmt = $conn->prepare($sql);
 
-    // Execute the query
-    $stmt->execute();
+  // Bind parameters
+  $stmt->bind_param("sss", $name, $rollNumber, $hashedPassword);
 
-    // Check for success
-    if ($stmt->affected_rows > 0) {
-        header("Location: signup.php?success=Registration successful!");
-    } else {
-        header("Location: signup.php?error=Registration failed");
-    }
+  // Execute the query
+  $stmt->execute();
 
-    // Close the statement
-    $stmt->close();
-    
-    // Close the database connection
-    $conn->close();
+  // Check for success
+  if ($stmt->affected_rows > 0) {
+    header("Location: signup.php?success=Registration successful!");
+  } else {
+    header("Location: signup.php?error=Registration failed");
+  }
+
+  // Close the statement
+  $stmt->close();
+
+  // Close the database connection
+  $conn->close();
 }
 ?>
 
@@ -68,7 +69,10 @@ if (isset($_POST['signupButton'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Signup</title>
-  <link rel="stylesheet" href="CSS/style.css" />
+  <link rel="stylesheet" type="text/css" href="../CSS/style.css" />
+  <link rel="stylesheet" type="text/css" href="../CSS/index.css" />
+  <link rel="stylesheet" type="text/css" href="../CSS/main.css" />
+  <link rel="stylesheet" type="text/css" href="../CSS/profile.css" />
 </head>
 
 <body>
@@ -84,8 +88,8 @@ if (isset($_POST['signupButton'])) {
 
           <!-- BACK TO LOGIN PAGE LINK -->
           <div class="back-link">
-            <a href="index.php">
-              <img class="back-logo" src="Resources/back.png" alt="Back Logo" />
+            <a href="../index.php">
+              <img class="back-logo" src="../Resources/back.png" alt="Back Logo" />
               Back to Login
             </a>
           </div>
@@ -233,4 +237,3 @@ if (isset($_POST['signupButton'])) {
 </body>
 
 </html>
-
